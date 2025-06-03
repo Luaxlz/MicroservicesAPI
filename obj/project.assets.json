@@ -5256,24 +5256,25 @@
     ]
   },
   "packageFolders": {
-    "/home/techsavy/.nuget/packages/": {}
+    "C:\\Users\\Lucas Angeli\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/techsavy/Documentos/Estudos/C#/PlatformService/PlatformService.csproj",
+      "projectUniqueName": "C:\\Users\\Lucas Angeli\\Documents\\repos\\MicroservicesAPI\\PlatformService.csproj",
       "projectName": "PlatformService",
-      "projectPath": "/home/techsavy/Documentos/Estudos/C#/PlatformService/PlatformService.csproj",
-      "packagesPath": "/home/techsavy/.nuget/packages/",
-      "outputPath": "/home/techsavy/Documentos/Estudos/C#/PlatformService/obj/",
+      "projectPath": "C:\\Users\\Lucas Angeli\\Documents\\repos\\MicroservicesAPI\\PlatformService.csproj",
+      "packagesPath": "C:\\Users\\Lucas Angeli\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Lucas Angeli\\Documents\\repos\\MicroservicesAPI\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/techsavy/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\Lucas Angeli\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -5286,7 +5287,13 @@
         "warnAsError": [
           "NU1605"
         ]
-      }
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
+      },
+      "SdkAnalysisLevel": "9.0.200"
     },
     "frameworks": {
       "net8.0": {
@@ -5342,7 +5349,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.115/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
