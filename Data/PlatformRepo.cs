@@ -21,10 +21,9 @@ namespace PlatformService.Data
             return [.. _context.Platforms];
         }
 
-        public Platform GetPlatformById(int id)
+        public Platform? GetPlatformById(int id)
         {
-            return _context.Platforms.FirstOrDefault(p => p.Id == id) ??
-                throw new KeyNotFoundException($"Platform with ID {id} not found");
+            return _context.Platforms.FirstOrDefault(p => p.Id == id);
         }
 
         public bool SaveChanges()
