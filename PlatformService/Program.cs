@@ -10,6 +10,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Database configuration
+Console.WriteLine($"--> Environment: {builder.Environment.EnvironmentName}");
 if (builder.Environment.IsProduction())
 {
     Console.WriteLine("--> Using SqlServer Db");
