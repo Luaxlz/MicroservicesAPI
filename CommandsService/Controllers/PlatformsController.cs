@@ -1,8 +1,9 @@
 using AutoMapper;
 using CommandsService.Data;
+using CommandsService.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CommandsService.Controlles
+namespace CommandsService.Controllers
 {
   [Route("api/commands/[controller]")]
   [ApiController]
@@ -15,6 +16,16 @@ namespace CommandsService.Controlles
     {
       _repository = repository;
       _mapper = mapper;
+    }
+
+    [HttpGet]
+    public ActionResult<IEnumerable<PlatformReadDto>> GetPlatforms()
+    {
+      Console.WriteLine("--> Getting Platforms from Commands Service");
+
+      var platformItems = _repository.GetAllPlatforms();
+      
+      return Ok(_mapper.Map<IEnumerable<PlatformReadDto>>(platformItems));
     }
 
     [HttpPost]
