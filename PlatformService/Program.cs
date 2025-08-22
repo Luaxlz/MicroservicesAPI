@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using PlatformService.AsyncDataServices;
 using PlatformService.Data;
 using PlatformService.SyncDataService.Http;
 
@@ -10,23 +11,15 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Database configuration
-Console.WriteLine($"--> Environment: {builder.Environment.EnvironmentName}");
-if (builder.Environment.IsProduction())
-{
-    Console.WriteLine("--> Using SqlServer Db");
-    builder.Services.AddDbContext<AppDbContext>(opt =>
-        opt.UseSqlServer(builder.Configuration.GetConnectionString("PlatformsConn")));
-}
-else 
-{
-    Console.WriteLine("--> Using InMem Db");
-    builder.Services.AddDbContext<AppDbContext>(opt =>
-        opt.UseInMemoryDatabase("InMem"));
-}
+Console.WriteLine("--> Using SqlServer Db");
+builder.Services.AddDbContext<AppDbContext>(opt =>
+    opt.UseSqlServer(builder.Configuration.GetConnectionString("PlatformsConn")));
+
 // Repository and AutoMapper
 builder.Services.AddScoped<IPlatformRepo, PlatformRepo>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddHttpClient<ICommandDataClient, HttpCommandDataClient>();
+builder.Services.AddSingleton<IMessageBusClient, MessageBusClient>();
 
 
 var app = builder.Build();
@@ -44,6 +37,6 @@ if (app.Environment.IsDevelopment())
 app.MapControllers();
 
 // Preparar o banco de dados
-PrepDb.PrepPopulation(app, builder.Environment.IsProduction());
+PrepDb.PrepPopulation(app, true);
 
 app.Run();
