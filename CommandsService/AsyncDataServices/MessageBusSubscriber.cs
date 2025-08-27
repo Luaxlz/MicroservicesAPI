@@ -1,7 +1,7 @@
-
 using CommandsService.EventProcessing;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using System.Text;
 
 namespace CommandsService.AsyncDataServices
 {
@@ -17,6 +17,37 @@ namespace CommandsService.AsyncDataServices
         {
             _configuration = configuration;
             _eventProcessor = eventProcessor;
+        }
+
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        {
+            stoppingToken.ThrowIfCancellationRequested();
+            await InitializeRabbitMQ();
+
+            if (_channel == null || _queueName == null)
+            {
+                throw new InvalidOperationException("RabbitMQ channel or queue name is not initialized.");
+            }
+
+
+            var consumer = new AsyncEventingBasicConsumer(_channel);
+            consumer.ReceivedAsync += (ModuleHandle, ea) =>
+            {
+                Console.WriteLine("--> Event Received!");
+                var body = ea.Body;
+                var notificationMessage = Encoding.UTF8.GetString(body.ToArray());
+
+                _eventProcessor.ProcessEvent(notificationMessage);
+                return Task.CompletedTask;
+            };
+
+            await _channel.BasicConsumeAsync(
+                queue: _queueName,
+                autoAck: true,
+                consumer: consumer,
+                cancellationToken: stoppingToken
+            );
+
         }
 
         private async Task InitializeRabbitMQ()
@@ -42,9 +73,24 @@ namespace CommandsService.AsyncDataServices
 
             _connection.ConnectionShutdownAsync += RabbitMQ_ConnectionShutdown;
         }
-        protected override Task ExecuteAsync(CancellationToken stoppingToken)
+
+        private Task Consumer_ReceivedAsync(object sender, BasicDeliverEventArgs e)
         {
-            throw new NotImplementedException();
+            Console.WriteLine("--> Event Received!");
+
+            var body = e.Body.ToArray();
+            var notificationMessage = Encoding.UTF8.GetString(body);
+
+            try
+            {
+                _eventProcessor.ProcessEvent(notificationMessage);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"--> Could not process event: {ex.Message}");
+            }
+
+            return Task.CompletedTask;
         }
 
         private Task RabbitMQ_ConnectionShutdown(object? sender, ShutdownEventArgs e)
@@ -52,16 +98,21 @@ namespace CommandsService.AsyncDataServices
             Console.WriteLine("--> RabbitMQ Connection Shutdown");
             return Task.CompletedTask;
         }
-        
-        public override void Dispose()
+
+        public override async void Dispose()
         {
             if (_channel?.IsOpen == true)
             {
-                _channel.CloseAsync();
-                _connection?.CloseAsync();
+                await _channel.CloseAsync();
+            }
+            
+            if (_connection?.IsOpen == true)
+            {
+                await _connection.CloseAsync();
             }
 
             base.Dispose();
+            GC.SuppressFinalize(this);
         }
     }
 }
