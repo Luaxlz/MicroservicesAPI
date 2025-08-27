@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CommandsService.Controllers
 {
     [ApiController]
-    [Route("api/commands/{platformId}/[controller]")]
+    [Route("api/commands/platforms/{platformId}/[controller]")]
     [ServiceFilter(typeof(ValidatePlatformExistsFilter))] 
     public class CommandsController : ControllerBase
     {
