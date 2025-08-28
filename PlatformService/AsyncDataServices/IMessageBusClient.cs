@@ -1,7 +1,7 @@
 using PlatformService.Dtos;
 using System.Threading.Tasks;
 
-namespace PlatformService.AsyncDataServices
+namespace PlatformService.ASyncDataServicess
 {
     public interface IMessageBusClient : IAsyncDisposable
     {

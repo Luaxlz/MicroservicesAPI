@@ -1,10 +1,10 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using PlatformService.AsyncDataServices;
+using PlatformService.ASyncDataServicess;
 using PlatformService.Data;
 using PlatformService.Dtos;
 using PlatformService.Models;
-using PlatformService.SyncDataService.Http;
+using PlatformService.SyncDataServices.Http;
 
 namespace PlatformService.Controllers
 {

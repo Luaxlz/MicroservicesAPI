@@ -5,7 +5,7 @@ using PlatformService.Dtos;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-namespace PlatformService.AsyncDataServices
+namespace PlatformService.ASyncDataServicess
 {
     public class MessageBusClient : IMessageBusClient
     {
@@ -95,6 +95,10 @@ namespace PlatformService.AsyncDataServices
 
         private async Task SendMessage(string message)
         {
+            if (_channel == null)
+            {
+                throw new InvalidOperationException("RabbitMQ channel not established.");
+            }
             var body = Encoding.UTF8.GetBytes(message);
             var props = new BasicProperties();
             await _channel.BasicPublishAsync(
@@ -115,7 +119,7 @@ namespace PlatformService.AsyncDataServices
                 await _connection.DisposeAsync();
         }
 
-        private async Task RabbitMQ_ConnectionShutdownAsync(object sender, ShutdownEventArgs e)
+        private Task RabbitMQ_ConnectionShutdownAsync(object sender, ShutdownEventArgs e)
         {
             Console.WriteLine($"RabbitMQ connection lost. Reason: {e.ReplyText}, ReplyCode: {e.ReplyCode}");
 
@@ -123,6 +127,8 @@ namespace PlatformService.AsyncDataServices
             _connection = null;
             _channel = null;
             _connectionSemaphore.Dispose();
+
+            return Task.CompletedTask;
         }
     }
 }

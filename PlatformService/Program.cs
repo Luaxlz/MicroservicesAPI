@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using PlatformService.AsyncDataServices;
+using PlatformService.ASyncDataServicess;
 using PlatformService.Data;
-using PlatformService.SyncDataService.Http;
+using PlatformService.SyncDataServices.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 
