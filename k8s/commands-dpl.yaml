@@ -13,7 +13,7 @@ spec:
         app: commandservice
     spec:
       containers:
-        - name: platformservice
+        - name: commandservice
           image: luaxlz/commandservice:latest
 ---
 apiVersion: v1
