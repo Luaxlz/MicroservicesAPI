@@ -39,27 +39,6 @@ namespace CommandsService.Data
             if (!context.Platforms.Any())
             {
                 Console.WriteLine("--> Seeding Platforms data...");
-
-                context.Platforms.AddRange(
-                    new Platform() 
-                    { 
-                        ExternalId = 1,
-                        Name = ".NET"
-                    },
-                    new Platform() 
-                    { 
-                        ExternalId = 2,
-                        Name = "SQL Server"
-                    },
-                    new Platform() 
-                    { 
-                        ExternalId = 3,
-                        Name = "Kubernetes"
-                    }
-                );
-
-                context.SaveChanges();
-                Console.WriteLine("--> Platforms seeded successfully!");
             }
             else
             {
